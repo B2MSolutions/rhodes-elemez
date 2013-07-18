@@ -12,7 +12,7 @@ extern "C" void elemez_native_raiseDisruption(long timestamp, const char* sender
         return;
     }
 
-    jmethodID mid = env->GetStaticMethodID(cls, "raiseDisruption", "(Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;)V");
+    jmethodID mid = env->GetStaticMethodID(cls, "raiseDisruption", "(JLjava/lang/String;Ljava/lang/String;Z)V");
     if (!mid) {
         return;
     }

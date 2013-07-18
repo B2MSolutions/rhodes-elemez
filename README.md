@@ -32,7 +32,7 @@ class AppApplication < Rho::RhoApplication
   def initialize
     # Initialization before call to super
     super
-	Elemez::API::instrument
+	Elemez::API::instrument("MyApplicationName")
 
     # Initialization after call to super...
   end	  

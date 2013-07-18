@@ -9,14 +9,15 @@ import com.elemez.*;
 
 public class Elemez {
 
-   	public static void raiseDisruption(Long timestamp, String sender, String source, Boolean userInitiated) {
+   	public static void raiseDisruption(long timestamp, String sender, String source, boolean userInitiated) {
         Logger.D("Elemez", "raiseDisruption");        
 
         Intent intent = new Intent("elemez.intent.action.ACTION_DISRUPTED");
-        intent.putExtra("elemez.intent.extra.TIMESTAMP", 1);
-        intent.putExtra("elemez.intent.extra.SENDER", "SENDER");
-        intent.putExtra("elemez.intent.extra.SOURCE", "source");
-        intent.putExtra("elemez.intent.extra.USER_INITIATED", true);
+       
+        intent.putExtra("elemez.intent.extra.TIMESTAMP", timestamp);
+        intent.putExtra("elemez.intent.extra.SENDER", sender);
+        intent.putExtra("elemez.intent.extra.SOURCE", source);
+        intent.putExtra("elemez.intent.extra.USER_INITIATED", userInitiated);
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         
         Context context = RhodesService.getContext();
