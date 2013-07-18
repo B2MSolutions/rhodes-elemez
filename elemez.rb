@@ -5,7 +5,7 @@ module Elemez
     @@sender = "Unknown"
 
     def self.instrument(sender)
-      RhoLog::info('Elemez::API', 'instrumenting ' + sender)
+      RhoLog::info('Elemez::API::instrument', 'instrumenting ' + sender)
       @@sender = sender
     end
 
@@ -25,7 +25,7 @@ module Rho
     alias_method :orig_initialize, :initialize
 
     def initialize(err_code)
-      RhoLog::info("elemez::RhoError::initialize", ::Rho::RhoError.err_message(err_code))
+      RhoLog::info("Rho::RhoError::initialize (elemez)", "raising disruption for error")
 
       source = ""
       userInitiated = 0
@@ -60,13 +60,8 @@ module Rho
         source = "Unknown"
       end
 
-      timestamp = (Time.now.to_f * 1000).to_i
-      RhoLog::info("elemez::RhoError::initialize - timestamp", timestamp)
-      RhoLog::info("elemez::RhoError::initialize - sender", ::Elemez::API::sender)
-
-      Elemez::native_raiseDisruption(42, ::Elemez::API::sender, source, userInitiated)
-
-      # elemez_sessionBegin
+      Elemez::native_raiseDisruption(::Elemez::API::sender, source, userInitiated)
+     
       orig_initialize(err_code)
     end
 

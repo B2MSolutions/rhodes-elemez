@@ -9,9 +9,10 @@ import com.elemez.*;
 
 public class Elemez {
 
-   	public static void raiseDisruption(long timestamp, String sender, String source, boolean userInitiated) {
+   	public static void raiseDisruption(String sender, String source, boolean userInitiated) {
         Logger.D("Elemez", "raiseDisruption");        
 
+        long timestamp = System.currentTimeMillis();
         Intent intent = new Intent("elemez.intent.action.ACTION_DISRUPTED");
        
         intent.putExtra("elemez.intent.extra.TIMESTAMP", timestamp);

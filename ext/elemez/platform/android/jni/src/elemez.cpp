@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "ruby/ext/rho/rhoruby.h"
 
-extern "C" void elemez_native_raiseDisruption(long timestamp, const char* sender, const char* source, int userInitiated) {
+extern "C" void elemez_native_raiseDisruption(const char* sender, const char* source, int userInitiated) {
 
     JNIEnv *env = jnienv();
 
@@ -12,17 +12,16 @@ extern "C" void elemez_native_raiseDisruption(long timestamp, const char* sender
         return;
     }
 
-    jmethodID mid = env->GetStaticMethodID(cls, "raiseDisruption", "(JLjava/lang/String;Ljava/lang/String;Z)V");
+    jmethodID mid = env->GetStaticMethodID(cls, "raiseDisruption", "(Ljava/lang/String;Ljava/lang/String;Z)V");
     if (!mid) {
         return;
     }
 
-    jlong objTimestamp = timestamp;
     jstring objSender = env->NewStringUTF(sender);
     jstring objSource = env->NewStringUTF(source);
     jboolean objUserInitiated = userInitiated == 1 ? JNI_TRUE : JNI_FALSE;
 
-    env->CallStaticObjectMethod(cls, mid, objTimestamp, objSender, objSource, objUserInitiated);
+    env->CallStaticObjectMethod(cls, mid, objSender, objSource, objUserInitiated);
     
     env->DeleteLocalRef(objSender);
     env->DeleteLocalRef(objSource);
